@@ -28,7 +28,8 @@ enum totem_layers {
     _NUM,
     _NAV,
     _SYM,
-    _MOUSE
+    _MOUSE,
+    _GAME
 };
 
 // ┌─────────────────────────────────────────────────┐
@@ -40,7 +41,8 @@ enum custom_keycodes {
     NUM,
     NAV,
     SYM,
-    MOUSE
+    MOUSE,
+    GAME
 };
 
 // ┌─────────────────────────────────────────────────┐
@@ -48,23 +50,36 @@ enum custom_keycodes {
 // └─────────────────────────────────────────────────┘
 
 enum combo_events {
-    COMBO_ENTER,
-    COMBO_BSPC,
-    COMBO_ESC,
+    COMBO_HOME,
+    COMBO_EEND,
     COMBO_TAB,
+    COMBO_CAPS,
+    COMBO_LPAREN,
+    COMBO_RPAREN,
+    COMBO_LBRACE,
+    COMBO_RBRACE,
     COMBO_LENGTH
 };
 
-const uint16_t PROGMEM enter_combo[] = { KC_Q, KC_W, KC_E, COMBO_END };
-const uint16_t PROGMEM bspc_combo[]  = { KC_A, KC_S, KC_D, COMBO_END };
-const uint16_t PROGMEM esc_combo[]   = { KC_Z, KC_X, KC_C, COMBO_END };
-const uint16_t PROGMEM tab_combo[]   = { KC_1, KC_2, KC_3, COMBO_END };
+
+const uint16_t PROGMEM home_combo[]   = { KC_W, KC_E,    KC_R,   COMBO_END };
+const uint16_t PROGMEM end_combo[]    = { KC_U, KC_I,    KC_O,   COMBO_END };
+const uint16_t PROGMEM tab_combo[]    = { KC_X, KC_C,    KC_V,   COMBO_END };
+const uint16_t PROGMEM caps_combo[]   = { KC_M, KC_COMM, KC_DOT, COMBO_END };
+const uint16_t PROGMEM lparen_combo[] = { KC_R, KC_T,    COMBO_END };
+const uint16_t PROGMEM rparen_combo[] = { KC_Y, KC_U,    COMBO_END };
+const uint16_t PROGMEM lbrace_combo[] = { KC_V, KC_B,    COMBO_END };
+const uint16_t PROGMEM rbrace_combo[] = { KC_N, KC_M,    COMBO_END };
 
 combo_t key_combos[COMBO_LENGTH] = {
-    [COMBO_ENTER] = COMBO(enter_combo, KC_ENT),
-    [COMBO_BSPC]  = COMBO(bspc_combo, KC_BSPC),
-    [COMBO_ESC]   = COMBO(esc_combo, KC_ESC),
-    [COMBO_TAB]   = COMBO(tab_combo, KC_TAB),
+    [COMBO_HOME]        = COMBO(home_combo,        KC_HOME),
+    [COMBO_EEND]        = COMBO(end_combo,         KC_END),
+    [COMBO_TAB]         = COMBO(tab_combo,         KC_TAB),
+    [COMBO_CAPS]        = COMBO(caps_combo,        KC_CAPS),
+    [COMBO_LPAREN]      = COMBO(lparen_combo,      KC_LPRN),
+    [COMBO_RPAREN]      = COMBO(rparen_combo,      KC_RPRN),
+    [COMBO_LBRACE]      = COMBO(lbrace_combo,      KC_LBRC),
+    [COMBO_RBRACE]      = COMBO(rbrace_combo,      KC_RBRC),
 };
 
 // ┌─────────────────────────────────────────────────┐
@@ -77,7 +92,6 @@ combo_t key_combos[COMBO_LENGTH] = {
 #define ALT_S MT(MOD_LALT, KC_S)
 #define SFT_D MT(MOD_LSFT, KC_D)
 #define CTL_F MT(MOD_LCTL, KC_F)
-#define SHT_GRV MT(MOD_LSFT, KC_GRV)
 
 // RIGHT HAND HOME ROW MODS QWERTY ├─────────────────┐
 
@@ -95,9 +109,10 @@ combo_t key_combos[COMBO_LENGTH] = {
 
 #define BASE DF(_BASE)
 #define NUM LT(_NUM, KC_ENT)
-#define NAV LT(_NAV, KC_ESC)
-#define SYM LT(_SYM, KC_BSPC)
+#define NAV LT(_NAV, KC_BSPC)
+#define SYM LT(_SYM, KC_ESC)
 #define MOUSE LT(_MOUSE, KC_SPC)
+#define GAME LT(_GAME, KC_Q)
 
 
 // ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -112,21 +127,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    │ b a s e                                         │                      ╭╮╭╮╭╮╭╮
    └─────────────────────────────────────────────────┘                      │╰╯╰╯╰╯│
                              ┌─────────┬─────────┬─────────┬─────────┬──────╨──┐┌──╨──────┬─────────┬─────────┬─────────┬─────────┐
-                     ╌┄┈┈───═╡    Q    │    W    │    E    │    R    │    T    ││    Y    │    U    │    I    │    O    │    P    │   
+                     ╌┄┈┈───═╡ Q/GAME  │    W    │    E    │    R    │    T    ││    Y    │    U    │    I    │    O    │    P    │   
                              ├─────────┼─────────┼─────────┼─────────┼─────────┤├─────────┼─────────┼─────────┼─────────┼─────────┤
-                             │    A    │    S    │    D    │    F    │    G    ││    H    │    J    │    K    │    L    │    ;    │    
+                             │    A    │    S    │    D    │    F    │    G    ││    H    │    J    │    K    │    L    │    ;:   │    
    ┌─────────────────────────┼─────────┼─────────┼─────────┼─────────┼─────────┤├─────────┼─────────┼─────────┼─────────┼─────────┼─────────────────────────┐
-   │    esc/ctrl             │    Z    │    X    │    C    │    V    │    B    ││    N    │    M    │    ,    │    .    │    /    │    shift/'              │
+   │    esc/ctrl             │    Z    │    X    │    C    │    V    │    B    ││    N    │    M    │    ,<   │    .>   │    /?   │    shift/'"            │
    └─────────────────────────┴─────────┴─────────┼─────────┼─────────┼─────────┤├─────────┼─────────┼─────────┼─────────┴─────────┴─────────────────────────┘
-                                                 │  CTRL   │  LOWER  │  SPACE  ││   NUM   │   NAV   │   SYM   │  
+                                                 │  CTRL   │   ALT   │SPC/MOUSE││ BSPC/NAV│ ENT/NUM │ ESC/SYM │  
                                                  └─────────┴─────────┴─────────┘└─────────┴─────────┴─────────┘*/
 
    [_BASE] = LAYOUT(
  //╷                         ╷         ╷         ╷         ╷         ╷         ╷╷         ╷         ╷         ╷         ╷         ╷                         ╷
-                              KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,      KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,  
+                              GAME,     KC_W,     KC_E,     KC_R,     KC_T,      KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,  
                               GUI_A,    ALT_S,    SFT_D,    CTL_F,    KC_G,      KC_H,     CTL_J,    SFT_K,    ALT_L,    GUI_SC,    
     MT(MOD_LCTL, KC_ESC),     KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,      KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,  MT(MOD_RSFT, KC_QUOT),
-                                                  KC_LGUI,  KC_LALT,  MOUSE,     NUM,      NAV,      SYM
+                                                  KC_LGUI,  KC_LALT,  MOUSE,     NAV,      NUM,      SYM
  ),
 /*
    ╺━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╸
@@ -148,7 +163,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
               KC_1,     KC_2,     KC_3,     KC_4,     KC_5,      KC_6,     KC_7,     KC_8,     KC_9,     KC_0,
               _______,  _______,  KC_LSFT,  _______,  _______,   _______,  _______,  KC_RSFT,  _______,  _______,
     KC_LSFT,  _______,  _______,  _______,  _______,  _______,   _______,  _______,  _______,  _______,  _______,  KC_RSFT,
-                                  _______,  _______,  _______,   _______,  _______,  _______
+                                  KC_LGUI,  KC_LALT,  _______,   _______,  _______,  _______
     ),
 /*
    ╺━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╸
@@ -168,10 +183,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_NAV] = LAYOUT(
  //╷         ╷         ╷         ╷         ╷         ╷         ╷╷         ╷         ╷         ╷         ╷         ╷         ╷
-              _______,  _______,  KC_UP,    _______,  KC_LBRC,   KC_RBRC,  _______,  KC_P7,    KC_P8,    KC_P9,
-              _______,  KC_LEFT,  KC_DOWN,  KC_RGHT,  KC_LCBR,   KC_RCBR,  KC_LEFT,  KC_DOWN,  KC_RGHT,  _______,
-    _______,  _______,  _______,  _______,  _______,  KC_LPRN,   KC_RPRN,  KC_P1,    KC_P2,    KC_P3,    KC_PAST, _______,
-                                  _______,  KC_TAB,   KC_SPC,    KC_DEL,   KC_P0,    _______
+              _______,  _______,  KC_UP  ,  _______,  _______,   _______,  _______,  KC_UP,    _______,  _______,
+              _______,  KC_LEFT,  KC_DOWN,  KC_RGHT,  _______,   _______,  KC_LEFT,  KC_DOWN,  KC_RGHT,  _______,
+    _______,  _______,  _______,  _______,  _______,  _______,   _______,  _______,  _______,  _______,  _______,  _______,
+                                  _______,  _______,  _______,   _______,  _______,  _______
     ),
 /*
    ╺━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╸
@@ -191,10 +206,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_SYM] = LAYOUT(
  //╷         ╷         ╷         ╷         ╷         ╷         ╷╷         ╷         ╷         ╷         ╷         ╷         ╷
-              KC_EXLM,  KC_AT,    KC_HASH,  KC_DLR,   KC_PERC,   KC_CIRC,  KC_AMPR,  KC_UNDS,  KC_LPRN,  KC_RPRN,
-              _______,  _______,  _______,  _______,  _______,   _______,  _______,  _______,  _______,  _______,
-    KC_MINS,  _______,  _______,  _______,  _______,  _______,   _______,  _______,  _______,  _______,  _______,  KC_EQL,
-                                  _______,  _______,  _______,   _______,  _______,  _______
+              KC_EXLM,  KC_AT,    KC_HASH,  KC_DLR,   KC_PERC,   KC_CIRC,  KC_AMPR,  KC_ASTR,  KC_MINUS, KC_EQUAL,
+              KC_TILDE, KC_BSLS,  _______,  KC_LBRC,  KC_LPRN,   KC_RPRN,  KC_RBRC,  _______,  _______,  KC_GRV,
+    KC_MINS,  _______,  _______,  _______,  _______,  _______,   _______,  _______,  _______,  _______,  _______,  KC_PLUS,
+                                  KC_LSFT,  KC_LSFT,  KC_LSFT,   KC_LSFT,  KC_LSFT,  _______
     ),
 /*
    ╺━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╸
@@ -214,10 +229,33 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_MOUSE] = LAYOUT(
  //╷         ╷         ╷         ╷         ╷         ╷         ╷╷         ╷         ╷         ╷         ╷         ╷         ╷
-              _______,  _______,  MS_UP,    _______,  _______,   _______,  _______,  _______,  _______,  _______,
-              _______,  MS_LEFT,  MS_DOWN,  MS_RGHT,  _______,   MS_LEFT,  MS_DOWN,  MS_UP,    MS_RGHT,  _______,
+              _______,  MS_BTN2,  MS_UP,    MS_BTN1,  _______,   _______,  MS_BTN1,  MS_UP  ,  MS_BTN2,  _______,
+              _______,  MS_LEFT,  MS_DOWN,  MS_RGHT,  _______,   _______,  MS_LEFT,  MS_DOWN,  MS_RGHT,  _______,
     _______,  _______,  _______,  _______,  _______,  _______,   _______,  _______,  _______,  _______,  _______,  _______,
-                                  _______,  MS_BTN1,  MS_BTN1,   MS_BTN1,  MS_BTN1,  _______
+                                  _______,  _______,  _______,   _______,  _______,  _______
+    ),
+/*
+   ╺━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╸
+
+   ┌─────────────────────────────────────────────────┐
+   │ g a m e                                         │      ╭╮╭╮╭╮╭╮
+   └─────────────────────────────────────────────────┘      │╰╯╰╯╰╯│
+             ┌─────────┬─────────┬─────────┬─────────┬──────╨──┐┌──╨──────┬─────────┬─────────┬─────────┬─────────┐
+     ╌┄┈┈───═╡         │         │         │         │         ││         │         │         │         │         │   
+             ├─────────┼─────────┼─────────┼─────────┼─────────┤├─────────┼─────────┼─────────┼─────────┼─────────┤
+             │         │         │         │         │         ││         │         │         │         │         │    
+   ┌─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┐
+   │         │         │         │         │         │         ││         │         │         │         │         │         │
+   └─────────┴─────────┴─────────┼─────────┼─────────┼─────────┤├─────────┼─────────┼─────────┼─────────┴─────────┴─────────┘
+                                 │         │         │         ││         │         │         │  
+                                 └─────────┴─────────┴─────────┘└─────────┴─────────┴─────────┘*/
+
+    [_GAME] = LAYOUT(
+ //╷         ╷         ╷         ╷         ╷         ╷         ╷╷         ╷         ╷         ╷         ╷         ╷         ╷
+              KC_TAB,   KC_Q,     MS_UP,    KC_E,     KC_R,      _______,  _______,  _______,  _______,  _______,  
+              KC_LSFT,  MS_LEFT,  MS_DOWN,  MS_RGHT,  KC_F,      KC_G,     _______,  _______,  _______,  _______,
+    KC_4,     KC_LCTL,  _______,  KC_X,     KC_C,     KC_V,      _______,  _______,  KC_M,     _______,  _______,   QK_LLCK,
+                                  KC_SPC,   KC_SPC,   KC_SPC,    KC_1,     KC_2,     KC_3
     ),
 /*
    ╺━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╸

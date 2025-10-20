@@ -25,7 +25,7 @@ for more options.
 
 #define CHORDAL_HOLD
 #define PERMISSIVE_HOLD
-#define TAPPING_TERM 200
+#define TAPPING_TERM 250
 #define QUICK_TAP_TERM 0
 
 #undef LOCKING_SUPPORT_ENABLE
